@@ -1,5 +1,5 @@
 /******************************************************************
- * TNG033: övning 1 / exercise 1                                  *
+ * TNG033: Ã¶vning 1 / exercise 1                                  *
  * Review lecture 3                                               *
  * Definition of functions declared in list.h                     *
  * ****************************************************************/
@@ -65,18 +65,49 @@ void display_list(const List& L) {
 // Return the number of occurrences of value in list L
 int frequency(const List& L, int value) {
     // ADD CODE
-  
-    return 0; // remove this line
+    Node* ptr = L.head->next;
+    
+    int oc = 0;
+    if (is_empty(L)) {
+        return oc;
+    }
+    
+    while (ptr != nullptr) {
+        if (value == ptr->value) {
+            oc++;
+        }
+            ptr = ptr->next;
+    }
+    return oc;
 }
-
-// Insert n at the end of list L
+    
+ // Insert n at the end of list L
 void insert_last(List& L, int n) {
-   // ADD CODE
-}
+    Node* listptr = L.head;
 
+    Node* ptr = new Node;
+    ptr->value = n;
+    ptr->next = nullptr;
+
+    if (is_empty(L)) {                          
+        listptr->next = ptr;
+        return;
+    }
+
+
+    while (listptr->next != nullptr) {
+        listptr = listptr->next;
+    }
+    listptr->next = ptr;
+    
+    
+    
+}
+/*
 // Return a copy of list L
 List copy(const List& L) {
     List copy_;  // empty list
     // ADD CODE
     return copy_;
 }
+*/

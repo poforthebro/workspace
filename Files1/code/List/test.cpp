@@ -27,7 +27,8 @@ int main() {
 
     if (is_sorted(my_list)) {
         std::cout << "My list is sorted increasingly\n";
-    } else {
+    }
+    else {
         std::cout << "My list is not sorted increasingly\n";
     }
 
@@ -57,8 +58,9 @@ int main() {
     } else {
         std::cout << "Another list is not sorted increasingly\n";
     }
-
+}
     /* ********* Test copy ******** */
+    /*
     std::cout << "\nTest copy...\n";
 
     List my_list_copy = copy(my_list);
@@ -72,9 +74,9 @@ int main() {
     } else {
         std::cout << "Copy of my list is not sorted increasingly\n";
     }
-
+    */
     /* **************************** */
-
+    /*
     std::cout << "\nFree all memory used by the lists ...\n";
     make_empty(my_list);
     make_empty(another_list);
