@@ -1,0 +1,17 @@
+cat << 'EOF' > /config/workspace/.gitignore
+# CMake build directories
+build/
+**/build/
+cmake-build-*/
+
+# Compiled object files and executables
+*.o
+*.obj
+*.exe
+*.out
+
+# Local IDE and clangd cache files
+.vscode/
+.cache/
+compile_commands.json
+EOF
