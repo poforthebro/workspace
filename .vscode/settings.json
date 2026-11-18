@@ -1,4 +1,10 @@
 {
-    "cmake.sourceDirectory": "/config/workspace/Files1/code",
-    "cmake.ignoreCMakeListsMissing": true
+    "cmake.ignoreCMakeListsMissing": true,
+    "cmake.useCMakePresets": "never",
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.configureOnOpen": true,
+    "cmake.buildBeforeRun": true,
+    "cmake.saveBeforeBuild": true,
+    "C_Cpp.intelliSenseEngine": "disabled"
+    
 }

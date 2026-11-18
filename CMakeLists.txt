@@ -1,14 +1,79 @@
-cmake_minimum_required(VERSION 3.16)
-project(TNG033_All_Projects LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.28)
+project(TNG033_Coursework LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Recursively find all CMakeLists.txt files across all subfolders (including spaces in folder names like "Ovning 2")
+macro(_get_folder_prefix OUT_VAR)
+    file(RELATIVE_PATH _REL_DIR "${CMAKE_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    string(REGEX REPLACE "[^a-zA-Z0-9_-]" "_" ${OUT_VAR} "${_REL_DIR}")
+endmacro()
+
+# 1. Prefix every executable target name with its relative folder path
+macro(add_executable TARGET_NAME)
+    _get_folder_prefix(_PREFIX)
+    _add_executable("${_PREFIX}__${TARGET_NAME}" ${ARGN})
+endmacro()
+
+# 2. Resolve prefixed target names in all target_* commands
+macro(target_compile_options TARGET_NAME)
+    _get_folder_prefix(_PREFIX)
+    if(TARGET "${_PREFIX}__${TARGET_NAME}")
+        _target_compile_options("${_PREFIX}__${TARGET_NAME}" ${ARGN})
+    else()
+        _target_compile_options("${TARGET_NAME}" ${ARGN})
+    endif()
+endmacro()
+
+macro(target_link_options TARGET_NAME)
+    _get_folder_prefix(_PREFIX)
+    if(TARGET "${_PREFIX}__${TARGET_NAME}")
+        _target_link_options("${_PREFIX}__${TARGET_NAME}" ${ARGN})
+    else()
+        _target_link_options("${TARGET_NAME}" ${ARGN})
+    endif()
+endmacro()
+
+macro(target_link_libraries TARGET_NAME)
+    _get_folder_prefix(_PREFIX)
+    if(TARGET "${_PREFIX}__${TARGET_NAME}")
+        _target_link_libraries("${_PREFIX}__${TARGET_NAME}" ${ARGN})
+    else()
+        _target_link_libraries("${TARGET_NAME}" ${ARGN})
+    endif()
+endmacro()
+
+macro(target_include_directories TARGET_NAME)
+    _get_folder_prefix(_PREFIX)
+    if(TARGET "${_PREFIX}__${TARGET_NAME}")
+        _target_include_directories("${_PREFIX}__${TARGET_NAME}" ${ARGN})
+    else()
+        _target_include_directories("${TARGET_NAME}" ${ARGN})
+    endif()
+endmacro()
+
+# 3. Resolve prefixed target names in set_target_properties
+function(set_target_properties)
+    _get_folder_prefix(_PREFIX)
+    set(_STP_ARGS "")
+    set(_IN_PROPS FALSE)
+    foreach(_ARG IN LISTS ARGN)
+        if(_ARG STREQUAL "PROPERTIES")
+            set(_IN_PROPS TRUE)
+            list(APPEND _STP_ARGS "${_ARG}")
+        elseif(NOT _IN_PROPS AND TARGET "${_PREFIX}__${_ARG}")
+            list(APPEND _STP_ARGS "${_PREFIX}__${_ARG}")
+        else()
+            list(APPEND _STP_ARGS "${_ARG}")
+        endif()
+    endforeach()
+    _set_target_properties(${_STP_ARGS})
+endfunction()
+
+# 4. Recursively include all subfolder CMakeLists.txt files
 file(GLOB_RECURSE ALL_SUB_CMAKELISTS CONFIGURE_DEPENDS RELATIVE "${CMAKE_SOURCE_DIR}" "*/CMakeLists.txt")
 
 foreach(CMAKELIST IN LISTS ALL_SUB_CMAKELISTS)
-    # Skip anything inside the build/ directory
     if(NOT CMAKELIST MATCHES "^build/")
         get_filename_component(SUBDIR "${CMAKELIST}" DIRECTORY)
         add_subdirectory("${SUBDIR}")
