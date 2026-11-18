@@ -75,7 +75,7 @@ Set::Set(int x) : Set() {
 
 
 
-// This function seems to work correctly now
+// This function seems to work correctly now, needs some cleanup
 
 Set::Set(const std::vector<int>& elements) : Set() {
     /*
@@ -135,7 +135,7 @@ Set::Set(const std::vector<int>& elements) : Set() {
     
     }
 
-    std::cout << "Number of elements: " << counter; 
+    std::cout << "Number of elements: " << counter << "\n \n"; 
 
 
 }
@@ -143,11 +143,26 @@ Set::Set(const std::vector<int>& elements) : Set() {
 // copy constructor
 Set::Set(const Set& rhs) : Set() {
     // ADD CODE
+    Node* ptr1 = rhs.head->next;
+    Node* ptr2 = head;
+
+    while(ptr1 != nullptr) {
+        ptr2->next = new Node(ptr1->value);
+
+        ptr1 = ptr1->next;
+        ptr2 = ptr2->next;
+
+    }
+    counter = rhs.counter;
+
+
 }
 
 // Assignment operator: use copy-and-swap idiom
 Set& Set::operator=(Set rhs) {
     // ADD CODE
+    std::swap(head, rhs.head);
+    std::swap(counter, rhs.counter);
 
     return *this;
 }
@@ -186,6 +201,16 @@ bool Set::empty() const {
 // Test if x is an element of the set
 bool Set::member(int x) const {
     // ADD CODE
+    
+    const Node* ptr = head->next;
+    while(ptr != nullptr) {
+            if(ptr->value == x) {
+                return true;
+            }
+
+        ptr = ptr->next;
+    }
+
     return false;  // delete, if needed
 }
 
