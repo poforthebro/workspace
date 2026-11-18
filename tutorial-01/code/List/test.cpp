@@ -95,8 +95,7 @@ int main() {
     delete another_list.head;
     delete my_list_copy.head;
 }
-
-/* Expected output
+Expected output
 
 My list:  empty!!
 My list:  10->15->20->20->30->
