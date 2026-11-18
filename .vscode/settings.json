@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "/config/workspace/Files1/code"
+    "cmake.sourceDirectory": "/config/workspace/Files1/code",
+    "cmake.ignoreCMakeListsMissing": true
 }
