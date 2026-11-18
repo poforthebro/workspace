@@ -15,3 +15,12 @@ cmake-build-*/
 .cache/
 compile_commands.json
 EOF
+.DS_Store
+Labb/.DS_Store
+Labb/lab1/.DS_Store
+Labb/lab1/code/.DS_Store
+Labbar/.DS_Store
+Labbar/lab_1/.DS_Store
+Labbar/.DS_Store
+Labbar/lab_1/.DS_Store
+.DS_Store
