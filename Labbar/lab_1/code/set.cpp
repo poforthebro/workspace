@@ -80,22 +80,16 @@ Set::Set(int x) : Set() {
 Set::Set(const std::vector<int>& elements) : Set() {
     /*
         Use the constructor for the nodes
-
-        This code seems to kind of work now. But still needs some work
-    
-
      * Sorting a vector cannot used here
      * std::sort and std::unique cannot be used
      */
     // ADD CODE
     int length = std::ssize(elements); 
 
-
-
+    // For every element in vector elements
     for (int i = 0; i < length; ++i) {
-        Node* nextNode = head->next;
-        Node* previousNode = head;
-        Node* newNode = new Node(elements[i]);
+        Node* nextNode = head->next; // Points to the next node, from where we are trying to place newNode
+        Node* previousNode = head; // Points to the node before next node
         
         // Now we need to loop through the new set and find the position where the next one is bigger
         
@@ -103,18 +97,16 @@ Set::Set(const std::vector<int>& elements) : Set() {
         // This run as long as the ndoe after the next node is not nullptr. We add the new node when the next node is bigger than it
         while (nextNode != nullptr) {
             
-            if (nextNode->value > newNode->value) {
-                newNode->next = nextNode;
-                previousNode->next = newNode;
-
-                ++counter;
+            if (nextNode->value > elements[i]) {
+                
+                insert(previousNode, elements[i]);
+             
                 break;
             } 
             
-            else if (nextNode->value == newNode->value) {
+            else if (nextNode->value == elements[i]) {
 
                 // In this case we are not adding a new node and therefore not increasing the counter
-                delete newNode; // Keep track of our memory and delete the node that isnt used
                 break;
             }
 
@@ -125,18 +117,12 @@ Set::Set(const std::vector<int>& elements) : Set() {
        
         
         // If we reach the end of the list we add the new value at the end
-        if (nextNode == nullptr && newNode->value != previousNode->value) {
-            previousNode->next = newNode; // From the previousNode we point the next one to the newNode
-            newNode->next = nullptr;
-            ++counter;  
+        if (nextNode == nullptr && elements[i] != previousNode->value) {
+            insert(previousNode, elements[i]);
+            
         } 
 
-        
-    
     }
-
-    std::cout << "Number of elements: " << counter << "\n \n"; 
-
 
 }
 
@@ -263,3 +249,11 @@ std::ostream& operator<<(std::ostream& os, const Set& rhs) {
 }
 
 /********** Private member functions ************/
+
+    void Set::insert(Node* &p, int value) {
+        Node* newNode = new Node(value); // we create the new node with the value 
+        newNode->next = p->next;
+        p->next = newNode;
+
+        ++counter;
+    }

@@ -69,4 +69,7 @@ private:
     friend std::ostream& operator<<(std::ostream& os, const Set& rhs);
 
     /* Auxiliarly functions */
+    void insert(Node* &p, int value);
+
+
 };
