@@ -154,7 +154,7 @@ Set::~Set() {
     Node* ptr = head; // We start at the head since the dummy node should also be deleted
 
     while (ptr != nullptr) { // Loop until we find the end
-        // remove(ptr);
+         // remove(ptr);
        
         Node* next_ptr = ptr->next; // Save the pointer to the next Node
         delete ptr; // Delete the current node
@@ -201,22 +201,40 @@ bool Set::member(int x) const {
  * Return true, if *this is a subset of Set b
  * Otherwise, false is returned
  */
+
+
+ // We are missing to check the first one Hmm
 bool Set::is_subset(const Set& b) const {
     // ADD CODE
     Node* ptr = head->next;
+    Node* ptr_b = b.head->next;
+
+    if(ptr_b == nullptr) {
+        return false;
+    }
+
+    // For every value in *this
     while(ptr != nullptr) {
-        Node* ptr_b = b.head->next;
             
-        while(ptr->value != ptr_b->value) {
+        // Check against every value in b as long as thery are not the same value
+        while(ptr_b != nullptr && ptr->value != ptr_b->value) {
                 
-            if(ptr_b->next == nullptr) {
+            // If ptr_b = nullptr we have reached the end of the list without finding the expected value
+            if(ptr->value <= ptr_b->value) {
                     return false;
                 }
 
                 ptr_b = ptr_b->next;
             }
+
+            if(ptr_b == nullptr) {
+                return false;
+            }
+
+        // Move forwards in set *this
         ptr = ptr->next;
     }
+
 
     return true;  // delete, if needed
 }
@@ -274,19 +292,20 @@ void Set::insert(Node* p, int value) {
 
 // Give the pointer you want to delete 
 void Set::remove(Node* ptr) {
-    if(ptr == nullptr) { 
+    if(ptr == nullptr || ptr == head) { 
         return; 
     }
 
         // We need to find the node before
         Node* ptr_before = head;
 
-        while(ptr_before->next != ptr) {
+        while(ptr_before->next != nullptr && ptr_before->next != ptr) {
             ptr_before = ptr_before->next;
         }
 
-    ptr_before = ptr->next; // Save the pointer to the next Node
-    delete ptr; // Delete the wanted node
-
-    --counter;
+    if(ptr_before->next == ptr) {
+        ptr_before->next = ptr->next; // Save the pointer to the next Node
+        delete ptr; // Delete the wanted node
+        --counter;
+    }
 }

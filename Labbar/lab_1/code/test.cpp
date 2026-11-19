@@ -199,11 +199,16 @@ int main() {
         assert(S1.is_subset(S2) == false);
         assert(S1.is_subset(S1));
 
+      
         assert(Set{}.is_subset(S1));
-        assert(S1.is_subset(Set{}) == false);
+        assert(S1.is_subset(Set{}) == false); 
+      
+            
 
+            // Here we get an issue now
         std::vector<int> A3{10, 3, 5, 8};
-        assert((Set{A3}.is_subset(S2)) == false);
+        assert((Set{A3}.is_subset(S2)) == false); // This is the problem now
+        std::cout << "Line 211 ran \n";
 
     }
 
