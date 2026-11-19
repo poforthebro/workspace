@@ -26,7 +26,7 @@ public:
     }
 	
 	Node(const Node&) = delete;
-	Node& operator=(const Node&) = delete;
+	Node& operator=(const Node&) = delete; 
 	
     int value;
     Node* next;
