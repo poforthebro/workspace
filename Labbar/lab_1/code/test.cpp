@@ -185,6 +185,7 @@ int main() {
 
         assert(Set::get_count_nodes() == 5);
 
+
         assert(S1.cardinality() == 4);
 
         std::vector<int> A2{3, 5};
@@ -203,6 +204,7 @@ int main() {
 
         std::vector<int> A3{10, 3, 5, 8};
         assert((Set{A3}.is_subset(S2)) == false);
+
     }
 
     assert(Set::get_count_nodes() == 0);

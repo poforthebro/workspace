@@ -57,6 +57,9 @@ std::size_t Set::get_count_nodes() { return Set::Node::count_nodes; }
 Set::Set() : head{new Node{}}, counter{0} {  // create the dummy node
 }
 
+
+// !!!! Update to use Node inser function
+
 // Constructor for creating a singleton {x}
 Set::Set(int x) : Set() {
     // ADD CODE
@@ -98,32 +101,24 @@ Set::Set(const std::vector<int>& elements) : Set() {
         while (nextNode != nullptr) {
             
             if (nextNode->value > elements[i]) {
-                
                 insert(previousNode, elements[i]);
-             
                 break;
             } 
             
             else if (nextNode->value == elements[i]) {
-
                 // In this case we are not adding a new node and therefore not increasing the counter
                 break;
             }
 
             previousNode = nextNode;
-            nextNode = nextNode->next;
-            
+            nextNode = nextNode->next;  
         }
        
-        
         // If we reach the end of the list we add the new value at the end
         if (nextNode == nullptr && elements[i] != previousNode->value) {
-            insert(previousNode, elements[i]);
-            
+            insert(previousNode, elements[i]);      
         } 
-
     }
-
 }
 
 // copy constructor
@@ -159,12 +154,14 @@ Set::~Set() {
     Node* ptr = head; // We start at the head since the dummy node should also be deleted
 
     while (ptr != nullptr) { // Loop until we find the end
+        // remove(ptr);
+       
         Node* next_ptr = ptr->next; // Save the pointer to the next Node
         delete ptr; // Delete the current node
-        ptr = next_ptr; // current node is the next node
+        ptr = next_ptr; // current node is the next node 
         }
 
-    delete ptr;  // Delete the last node
+    delete(ptr);  // Delete the last node
 }
 
 // Return number of elements in the set
@@ -206,7 +203,22 @@ bool Set::member(int x) const {
  */
 bool Set::is_subset(const Set& b) const {
     // ADD CODE
-    return false;  // delete, if needed
+    Node* ptr = head->next;
+    while(ptr != nullptr) {
+        Node* ptr_b = b.head->next;
+            
+        while(ptr->value != ptr_b->value) {
+                
+            if(ptr_b->next == nullptr) {
+                    return false;
+                }
+
+                ptr_b = ptr_b->next;
+            }
+        ptr = ptr->next;
+    }
+
+    return true;  // delete, if needed
 }
 
 
@@ -250,10 +262,31 @@ std::ostream& operator<<(std::ostream& os, const Set& rhs) {
 
 /********** Private member functions ************/
 
-    void Set::insert(Node* &p, int value) {
-        Node* newNode = new Node(value); // we create the new node with the value 
-        newNode->next = p->next;
-        p->next = newNode;
+void Set::insert(Node* p, int value) {
+    Node* newNode = new Node(value); // we create the new node with the value 
+    newNode->next = p->next;
+    p->next = newNode;
 
-        ++counter;
+    ++counter;
+}
+
+// This function needs to be fixed, it aint working
+
+// Give the pointer you want to delete 
+void Set::remove(Node* ptr) {
+    if(ptr == nullptr) { 
+        return; 
     }
+
+        // We need to find the node before
+        Node* ptr_before = head;
+
+        while(ptr_before->next != ptr) {
+            ptr_before = ptr_before->next;
+        }
+
+    ptr_before = ptr->next; // Save the pointer to the next Node
+    delete ptr; // Delete the wanted node
+
+    --counter;
+}
