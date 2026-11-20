@@ -247,7 +247,52 @@ bool Set::is_subset(const Set& b) const {
  */
 Set Set::set_union(const Set& b) const {
     // ADD CODE
-    return Set{};  // delete, if needed
+    Node* ptr1 = head->next;
+    Node* ptr2 = b.head->next;
+    Set newSet{}; // create the new set
+    Node* ptrNew = newSet.head;
+
+    /*
+        Loop through both sets until we find the end of one of them, compare the values between them and insert the one that is smaller. 
+        Step forwards in the set with the smaller value
+        If the value are equal in the two sets, insert the value and step both sets forward
+    */ 
+    while(ptr1 != nullptr && ptr2 != nullptr) {
+
+        if(ptr1->value == ptr2->value) {
+            newSet.insert(ptrNew, ptr1->value);
+            ptrNew = ptrNew->next;
+            ptr1 = ptr1->next;
+            ptr2 = ptr2->next;
+        }
+
+        else if(ptr1->value < ptr2->value){
+            newSet.insert(ptrNew, ptr1->value);
+            ptrNew = ptrNew->next;
+            ptr1 = ptr1->next;
+        }
+
+        else {
+            newSet.insert(ptrNew, ptr2->value);
+            ptrNew = ptrNew->next;
+            ptr2 = ptr2->next;
+        }
+    }
+
+    // If set1 is still not nullptr lopp trough it to insert the last values
+    while(ptr1 != nullptr) {
+        newSet.insert(ptrNew, ptr1->value);
+        ptrNew = ptrNew->next;
+        ptr1 = ptr1->next;
+    }
+    // If set2 is still not nullptr lopp trough it to insert the last values
+    while(ptr2 != nullptr) {
+        newSet.insert(ptrNew, ptr2->value);
+        ptrNew = ptrNew->next;
+        ptr2 = ptr2->next;
+    }
+
+    return newSet;  // delete, if needed
 }
 
 // Return a new Set representing the intersection of Sets *this and b

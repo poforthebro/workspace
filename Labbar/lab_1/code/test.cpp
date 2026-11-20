@@ -54,8 +54,6 @@ int main() {
         Set S1{A1}; 
         assert(Set::get_count_nodes() == 4); // Changed from 4 to 3 to reflect the actual count
 
-        std::cout << "Line 57 ran";
-
 
         assert(S1.cardinality() == 3);
         assert(!S1.empty());
@@ -205,15 +203,14 @@ int main() {
       
             
 
-            // Here we get an issue now
+        
         std::vector<int> A3{10, 3, 5, 8};
-        assert((Set{A3}.is_subset(S2)) == false); // This is the problem now
-        std::cout << "Line 211 ran \n";
+        assert((Set{A3}.is_subset(S2)) == false); 
+        
 
     }
 
     assert(Set::get_count_nodes() == 0);
-
     /******************************************************
      * TEST PHASE 6                                       *
      * union                                              *
@@ -232,15 +229,15 @@ int main() {
         Set S3{};
         assert(Set::get_count_nodes() == 10);
 
-        S3 = S1.set_union(S2);
+        S3 = S1.set_union(S2); 
         assert(Set::get_count_nodes() == 16);
 
         assert(S3.cardinality() == 6);
-
         // test
         std::vector<int> A3{1, 2, 3, 5, 7, 8};
         assert(S3.is_subset(Set{A3}) and Set{A3}.is_subset(S3));  // S3 == {1, 2, 3, 5, 7, 8}
         assert(Set::get_count_nodes() == 16);
+        
 
         S3 = Set{}.set_union(S1).set_union(Set{});
         assert(Set::get_count_nodes() == 14);
