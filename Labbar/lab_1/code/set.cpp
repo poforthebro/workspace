@@ -104,8 +104,8 @@ Set::Set(const std::vector<int>& elements) : Set() {
             nextNode = nextNode->next;  
         }
        
-        // If we reach the end of the list we add the new value at the end as long as it is not equal to the one that is at the end
-        if (nextNode == nullptr && element != previousNode->value) {
+        // If we reach the end of the list we add the new value at the end
+        if (nextNode == nullptr) {
             insert(previousNode, element);      
         } 
 
