@@ -62,7 +62,7 @@ Set::Set() : head{new Node{}}, counter{0} {  // create the dummy node
 
 // Constructor for creating a singleton {x}
 Set::Set(int x) : Set() {
-    // ADD CODE
+     
     insert(head, x); // Use the insert function to insert the new value directly after the dummy node
 }
 
@@ -77,7 +77,7 @@ Set::Set(const std::vector<int>& elements) : Set() {
      * Sorting a vector cannot used here
      * std::sort and std::unique cannot be used
      */
-    // ADD CODE
+    
 
     // For every element in vector elements
     for (const int& element : elements ) {
@@ -114,7 +114,7 @@ Set::Set(const std::vector<int>& elements) : Set() {
 
 // copy constructor
 Set::Set(const Set& rhs) : Set() {
-    // ADD CODE
+     
     Node* ptr1 = rhs.head->next; // rhs starts after the dummy node
     Node* ptr2 = head; // *this starts at the head
 
@@ -128,7 +128,7 @@ Set::Set(const Set& rhs) : Set() {
 
 // Assignment operator: use copy-and-swap idiom
 Set& Set::operator=(Set rhs) { // rhs is copied by value, it is a new set
-    // ADD CODE
+     
     std::swap(head, rhs.head); // We set lhs head to point to the new sets head
     std::swap(counter, rhs.counter); // We set the counter correct
 
@@ -137,7 +137,7 @@ Set& Set::operator=(Set rhs) { // rhs is copied by value, it is a new set
 
 // Destructor: deallocate all nodes
 Set::~Set() {
-    // ADD CODE
+     
     Node* ptr = head; // We start at the head since the dummy node should also be deleted
 
     while (ptr != nullptr) { // Loop through the entire list
@@ -153,13 +153,13 @@ Set::~Set() {
 
 // Return number of elements in the set
 std::size_t Set::cardinality() const {
-    // ADD CODE
+     
     return counter;  // We return the counter that should be holding the number of elements
 }
 
 // Test if set is empty
 bool Set::empty() const {
-    // ADD CODE
+     
     // If and only if the dummy node points to nullptr the set is empty
     if (head->next == nullptr) {
         return true;
@@ -170,7 +170,7 @@ bool Set::empty() const {
 
 // Test if x is an element of the set
 bool Set::member(int x) const {
-    // ADD CODE
+     
     const Node* ptr = head->next; // We start at the dummy node
     
     // Check every element until we reach the end of the set
@@ -188,7 +188,7 @@ bool Set::member(int x) const {
  * Otherwise, false is returned
  */
 bool Set::is_subset(const Set& b) const {
-    // ADD CODE
+     
     Node* ptr = head->next;
     Node* ptr_b = b.head->next;
 
@@ -215,7 +215,7 @@ bool Set::is_subset(const Set& b) const {
         ptr = ptr->next;
     }
     // If all tests above were passed we can return true since the statement must be true
-    return true;  // delete, if needed
+    return true;    
 }
 
 
@@ -225,7 +225,7 @@ bool Set::is_subset(const Set& b) const {
  * Must implement the algorithm given in Lab1's appendix
  */
 Set Set::set_union(const Set& b) const {
-    // ADD CODE
+     
     Node* ptr1 = head->next;
     Node* ptr2 = b.head->next;
     Set newSet{}; // create the new set
@@ -280,15 +280,71 @@ Set Set::set_union(const Set& b) const {
 }
 
 // Return a new Set representing the intersection of Sets *this and b
+
+/* Similar Search function to previous entries, since they are sorted, 
+they should be fine to check one by one, it will never be too high to since it has the limits of and of end of set.
+*/
 Set Set::set_intersection(const Set& b) const {
-    // ADD CODE
-    return Set{};  // delete, if needed
+    // take in two sets, skipping the dummynode.
+    Node* ptr1 = head->next;
+    Node* ptr2 = b.head->next;
+    Set newSet{};  // create the new set
+    Node* ptrNew = newSet.head;
+
+    while (ptr1 != nullptr && ptr2 != nullptr) {
+    
+        if (ptr1->value == ptr2->value) {
+            newSet.insert(ptrNew, ptr1->value);
+            ptrNew = ptrNew->next;
+            ptr1 = ptr1->next;
+            ptr2 = ptr2->next;
+        } 
+        else if (ptr1->value < ptr2->value) {
+            ptr1 = ptr1->next;
+        } 
+        else {
+            ptr2 = ptr2->next;
+        }
+    }
+    return newSet;    
 }
 
 // Return a new Set representing the difference between Set *this and Set b
 Set Set::set_difference(const Set& b) const {
-    // ADD CODE
-    return Set{};  // delete, if needed
+        
+    
+    Node* ptr1 = head->next;
+    Node* ptr2 = b.head->next;
+    Set newSet{};  // create the new set
+    Node* ptrNew = newSet.head;
+
+    while (ptr1 != nullptr && ptr2 != nullptr) {
+
+        if (ptr1->value == ptr2->value) {
+         
+            ptr1 = ptr1->next;
+            ptr2 = ptr2->next;
+        } else if (ptr1->value < ptr2->value) {
+            newSet.insert(ptrNew, ptr1->value);
+            ptrNew = ptrNew->next;
+            ptr1 = ptr1->next;
+        } else {
+            ptr2 = ptr2->next;
+        }
+    }
+    // So what happens here?, We exclude any equalities between the two sets, ptr1 and ptr2 goes
+    // forward, since b is sorted already via the constructor, the value that appears in ptr1 will
+    // not appear in ptr2 again, so we send to newset.
+    // Same Search function, letting ptr 2 catch up. This creates an edgecase however. if ptr2
+    // finishes before *this, we will have stuff left over if *this is bigger. Need to create a
+    // while loop to finish *this and put the rest of the things in newSet
+    while (ptr1 != nullptr) {
+        newSet.insert(ptrNew, ptr1->value);
+        ptrNew = ptrNew->next;
+        ptr1 = ptr1->next;
+
+    }
+    return newSet;  
 }
 
 std::ostream& operator<<(std::ostream& os, const Set& rhs) {

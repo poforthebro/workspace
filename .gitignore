@@ -1,17 +1,41 @@
-cat << 'EOF' > /config/workspace/.gitignore
-# CMake build directories
+# Visual Studio
+.vs/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.slnx
+*.suo
+*.user
+*.db
+*.opendb
+*.ipch
+*.pdb
+*.ilk
+
+# CMake build outputs
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+*.dir/
+@cmake_cxx_std.dir/
 build/
-**/build/
-cmake-build-*/
 
-# Compiled object files and executables
-*.o
-*.obj
+# Compiled binaries & build folders
+Debug/
+Release/
+RelWithDebInfo/
+MinSizeRel/
+x64/
+x86/
 *.exe
-*.out
+*.obj
+*.tlog
+*.log
+*.recipe
+*.lastbuildstate
 
-# Local IDE and clangd cache files
-.vscode/
-.cache/
-compile_commands.json
-EOF
+# OS junk
+.DS_Store
+Thumbs.db
