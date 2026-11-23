@@ -199,33 +199,31 @@ bool Set::is_subset(const Set& b) const {
     Node* ptr = head->next;
     Node* ptr_b = b.head->next;
 
-    if(ptr_b == nullptr) {
-        return false;
-    }
-
-    // For every value in *this
+    // For every value in *this we check untill we reach the end of *this list
     while(ptr != nullptr) {
             
-        // Check against every value in b as long as thery are not the same value
+        // Check against every value in b as long as they are not the same value
         while(ptr_b != nullptr && ptr->value != ptr_b->value) {
                 
-            // If ptr_b = nullptr we have reached the end of the list without finding the expected value
+            // If this is smaller than b we know that we have passed the point where they might be the same. We can return false
             if(ptr->value <= ptr_b->value) {
                     return false;
                 }
 
                 ptr_b = ptr_b->next;
-            }
+        }
 
-            if(ptr_b == nullptr) {
-                return false;
-            }
+
+        // If ptr_b = nullptr we have reached the end of the list without finding the expected value
+        if(ptr_b == nullptr) {
+            return false;
+        }
 
         // Move forwards in set *this
         ptr = ptr->next;
     }
 
-
+    // If all tests above were passed we can return true since the statement must be true
     return true;  // delete, if needed
 }
 
@@ -247,8 +245,10 @@ Set Set::set_union(const Set& b) const {
         Step forwards in the set with the smaller value
         If the value are equal in the two sets, insert the value and step both sets forward
     */ 
+
     while(ptr1 != nullptr && ptr2 != nullptr) {
 
+        // If both are equal we insert one value an move forward in both sets
         if(ptr1->value == ptr2->value) {
             newSet.insert(ptrNew, ptr1->value);
             ptrNew = ptrNew->next;
@@ -256,12 +256,14 @@ Set Set::set_union(const Set& b) const {
             ptr2 = ptr2->next;
         }
 
+        // We only insert the smaller value and then move forward in the list that had the smaller value
         else if(ptr1->value < ptr2->value){
             newSet.insert(ptrNew, ptr1->value);
             ptrNew = ptrNew->next;
             ptr1 = ptr1->next;
         }
-
+        
+        // This runs if ptr2->value is smaller than ptr1->value. We insert the smaller value and then move forward in the list that had the smaller value
         else {
             newSet.insert(ptrNew, ptr2->value);
             ptrNew = ptrNew->next;
@@ -275,6 +277,7 @@ Set Set::set_union(const Set& b) const {
         ptrNew = ptrNew->next;
         ptr1 = ptr1->next;
     }
+
     // If set2 is still not nullptr lopp trough it to insert the last values
     while(ptr2 != nullptr) {
         newSet.insert(ptrNew, ptr2->value);
@@ -282,7 +285,7 @@ Set Set::set_union(const Set& b) const {
         ptr2 = ptr2->next;
     }
 
-    return newSet;  // delete, if needed
+    return newSet;
 }
 
 // Return a new Set representing the intersection of Sets *this and b
