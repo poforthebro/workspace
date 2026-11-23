@@ -120,12 +120,10 @@ Set::Set(const Set& rhs) : Set() {
 
     // Loop through the rhs
     while(ptr1 != nullptr) {
-        ptr2->next = new Node(ptr1->value); // update *this to points to a new node that we create with the rhs value
+        insert(ptr2, ptr1->value); // Creates new node and updates counter
         ptr1 = ptr1->next; // Step rhs forwards
         ptr2 = ptr2->next; // Step *this fowrard
     }
-
-    counter = rhs.counter; // Update the counter
 }
 
 // Assignment operator: use copy-and-swap idiom
