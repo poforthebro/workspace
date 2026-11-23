@@ -90,7 +90,7 @@ Set::Set(const std::vector<int>& elements) : Set() {
         // Now we need to loop through the new set and find the position where the next one is bigger
         
         
-        // This run as long as the ndoe after the next node is not nullptr. We add the new node when the next node is bigger than it
+        // This run as long as the node after the next node is not nullptr. We add the new node when the next node is bigger than it
         while (nextNode != nullptr) {
             
             if (nextNode->value > elements[i]) {
@@ -160,13 +160,13 @@ Set::~Set() {
 // Return number of elements in the set
 std::size_t Set::cardinality() const {
     // ADD CODE
-
     return counter;  // We return the counter that should be holding the number of elements
 }
 
 // Test if set is empty
 bool Set::empty() const {
     // ADD CODE
+    // If and only if the dummy node points to nullptr the set is empty
     if (head->next == nullptr) {
         return true;
     }
@@ -178,15 +178,15 @@ bool Set::empty() const {
 bool Set::member(int x) const {
     // ADD CODE
     
-    const Node* ptr = head->next;
+    const Node* ptr = head->next; // We start at the dummy node
+    
+    // Check every element until we reach the end of the set
     while(ptr != nullptr) {
-            if(ptr->value == x) {
-                return true;
-            }
-
+        if(ptr->value == x) {
+            return true;
+        }
         ptr = ptr->next;
     }
-
     return false;  // delete, if needed
 }
 
@@ -194,9 +194,6 @@ bool Set::member(int x) const {
  * Return true, if *this is a subset of Set b
  * Otherwise, false is returned
  */
-
-
- // We are missing to check the first one Hmm
 bool Set::is_subset(const Set& b) const {
     // ADD CODE
     Node* ptr = head->next;
