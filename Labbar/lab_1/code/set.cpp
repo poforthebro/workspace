@@ -63,20 +63,13 @@ Set::Set() : head{new Node{}}, counter{0} {  // create the dummy node
 // Constructor for creating a singleton {x}
 Set::Set(int x) : Set() {
     // ADD CODE
-    Node* newNode = new Node;
-    newNode->value = x;
-    newNode->next = head->next;
-
-    head->next = newNode;
-    ++counter;
+    insert(head, x); // Use the insert function to insert the new value directly after the dummy node
 }
 
 /*
  * Constructor: create a set with elements
  * vector elements is not sorted and values in it may not be unique
  */
-
-
 
 // This function seems to work correctly now, needs some cleanup
 
@@ -87,10 +80,10 @@ Set::Set(const std::vector<int>& elements) : Set() {
      * std::sort and std::unique cannot be used
      */
     // ADD CODE
-    int length = std::ssize(elements); 
+    unsigned long length = std::ssize(elements);  // Used unsigned long since I was getting warnings about conversions otherwise since std::ssize returns a long and elements vector expects it as index
 
     // For every element in vector elements
-    for (int i = 0; i < length; ++i) {
+    for (unsigned long i = 0; i < length; ++i) {
         Node* nextNode = head->next; // Points to the next node, from where we are trying to place newNode
         Node* previousNode = head; // Points to the node before next node
         
@@ -114,7 +107,7 @@ Set::Set(const std::vector<int>& elements) : Set() {
             nextNode = nextNode->next;  
         }
        
-        // If we reach the end of the list we add the new value at the end
+        // If we reach the end of the list we add the new value at the end as long as it is not equal to the one that is at the end
         if (nextNode == nullptr && elements[i] != previousNode->value) {
             insert(previousNode, elements[i]);      
         } 
@@ -153,15 +146,15 @@ Set::~Set() {
     // ADD CODE
     Node* ptr = head; // We start at the head since the dummy node should also be deleted
 
-    while (ptr != nullptr) { // Loop until we find the end
-         // remove(ptr);
-       
+    while (ptr != nullptr) { // Loop through the entire list
+
         Node* next_ptr = ptr->next; // Save the pointer to the next Node
         delete ptr; // Delete the current node
         ptr = next_ptr; // current node is the next node 
-        }
+    }
 
     delete(ptr);  // Delete the last node
+    counter = 0;
 }
 
 // Return number of elements in the set
@@ -331,26 +324,4 @@ void Set::insert(Node* p, int value) {
     p->next = newNode;
 
     ++counter;
-}
-
-// This function needs to be fixed, it aint working
-
-// Give the pointer you want to delete 
-void Set::remove(Node* ptr) {
-    if(ptr == nullptr || ptr == head) { 
-        return; 
-    }
-
-        // We need to find the node before
-        Node* ptr_before = head;
-
-        while(ptr_before->next != nullptr && ptr_before->next != ptr) {
-            ptr_before = ptr_before->next;
-        }
-
-    if(ptr_before->next == ptr) {
-        ptr_before->next = ptr->next; // Save the pointer to the next Node
-        delete ptr; // Delete the wanted node
-        --counter;
-    }
 }
