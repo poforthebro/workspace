@@ -71,8 +71,6 @@ Set::Set(int x) : Set() {
  * vector elements is not sorted and values in it may not be unique
  */
 
-// This function seems to work correctly now, needs some cleanup
-
 Set::Set(const std::vector<int>& elements) : Set() {
     /*
         Use the constructor for the nodes
@@ -80,25 +78,24 @@ Set::Set(const std::vector<int>& elements) : Set() {
      * std::sort and std::unique cannot be used
      */
     // ADD CODE
-    unsigned long length = std::ssize(elements);  // Used unsigned long since I was getting warnings about conversions otherwise since std::ssize returns a long and elements vector expects it as index
 
     // For every element in vector elements
-    for (unsigned long i = 0; i < length; ++i) {
+    for (const int& element : elements ) {
         Node* nextNode = head->next; // Points to the next node, from where we are trying to place newNode
         Node* previousNode = head; // Points to the node before next node
         
         // Now we need to loop through the new set and find the position where the next one is bigger
-        
-        
         // This run as long as the node after the next node is not nullptr. We add the new node when the next node is bigger than it
         while (nextNode != nullptr) {
             
-            if (nextNode->value > elements[i]) {
-                insert(previousNode, elements[i]);
+            // if the value in elements i f smaller than the next value we add it before the node in the set
+            if (nextNode->value > element) {
+                insert(previousNode, element);
                 break;
             } 
             
-            else if (nextNode->value == elements[i]) {
+            // If they are equal we can just disregard this element since it already exists in the set. We break to move to the next step in the for loop
+            else if (nextNode->value == element) {
                 // In this case we are not adding a new node and therefore not increasing the counter
                 break;
             }
@@ -108,37 +105,36 @@ Set::Set(const std::vector<int>& elements) : Set() {
         }
        
         // If we reach the end of the list we add the new value at the end as long as it is not equal to the one that is at the end
-        if (nextNode == nullptr && elements[i] != previousNode->value) {
-            insert(previousNode, elements[i]);      
+        if (nextNode == nullptr && element != previousNode->value) {
+            insert(previousNode, element);      
         } 
+
     }
 }
 
 // copy constructor
 Set::Set(const Set& rhs) : Set() {
     // ADD CODE
-    Node* ptr1 = rhs.head->next;
-    Node* ptr2 = head;
+    Node* ptr1 = rhs.head->next; // rhs starts after the dummy node
+    Node* ptr2 = head; // *this starts at the head
 
+    // Loop through the rhs
     while(ptr1 != nullptr) {
-        ptr2->next = new Node(ptr1->value);
-
-        ptr1 = ptr1->next;
-        ptr2 = ptr2->next;
-
+        ptr2->next = new Node(ptr1->value); // update *this to points to a new node that we create with the rhs value
+        ptr1 = ptr1->next; // Step rhs forwards
+        ptr2 = ptr2->next; // Step *this fowrard
     }
-    counter = rhs.counter;
 
-
+    counter = rhs.counter; // Update the counter
 }
 
 // Assignment operator: use copy-and-swap idiom
-Set& Set::operator=(Set rhs) {
+Set& Set::operator=(Set rhs) { // rhs is copied by value, it is a new set
     // ADD CODE
-    std::swap(head, rhs.head);
-    std::swap(counter, rhs.counter);
+    std::swap(head, rhs.head); // We set lhs head to point to the new sets head
+    std::swap(counter, rhs.counter); // We set the counter correct
 
-    return *this;
+    return *this; // Automatically deletes rhs since it is not in scope anymore. Its destructor runs
 }
 
 // Destructor: deallocate all nodes
@@ -147,13 +143,13 @@ Set::~Set() {
     Node* ptr = head; // We start at the head since the dummy node should also be deleted
 
     while (ptr != nullptr) { // Loop through the entire list
-
         Node* next_ptr = ptr->next; // Save the pointer to the next Node
+
         delete ptr; // Delete the current node
         ptr = next_ptr; // current node is the next node 
     }
 
-    delete(ptr);  // Delete the last node
+    head = nullptr; // Make sure the head points to null and not the deleted node
     counter = 0;
 }
 
@@ -171,13 +167,12 @@ bool Set::empty() const {
         return true;
     }
 
-    return false;  // delete, if needed
+    return false;  // return false if the set isnt empty
 }
 
 // Test if x is an element of the set
 bool Set::member(int x) const {
     // ADD CODE
-    
     const Node* ptr = head->next; // We start at the dummy node
     
     // Check every element until we reach the end of the set
@@ -187,7 +182,7 @@ bool Set::member(int x) const {
         }
         ptr = ptr->next;
     }
-    return false;  // delete, if needed
+    return false;  // return false at the end if we havent found the element
 }
 
 /*
@@ -213,7 +208,6 @@ bool Set::is_subset(const Set& b) const {
                 ptr_b = ptr_b->next;
         }
 
-
         // If ptr_b = nullptr we have reached the end of the list without finding the expected value
         if(ptr_b == nullptr) {
             return false;
@@ -222,7 +216,6 @@ bool Set::is_subset(const Set& b) const {
         // Move forwards in set *this
         ptr = ptr->next;
     }
-
     // If all tests above were passed we can return true since the statement must be true
     return true;  // delete, if needed
 }
