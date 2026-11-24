@@ -199,7 +199,7 @@ bool Set::is_subset(const Set& b) const {
         while(ptr_b != nullptr && ptr->value != ptr_b->value) {
                 
             // If this is smaller than b we know that we have passed the point where they might be the same. We can return false
-            if(ptr->value <= ptr_b->value) {
+            if(ptr->value < ptr_b->value) {
                     return false;
                 }
 
