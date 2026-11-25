@@ -1,9 +1,9 @@
 1. Write the interface of class Expression (expression.h). [Y]
 
 2. For each Expression member function to be implemented in this class, add a
-definition with a dummy body to expression.cpp. [ ]
+definition with a dummy body to expression.cpp. [ Y ]
 
-3. Write the interface of class Polynomial (polynomial.h).[ ]
+3. Write the interface of class Polynomial (polynomial.h).[ Y ]
 
 4. For each Polynomial member function to be implemented in this class, add a
 definition with a dummy body to polynomial.cpp. [ ]

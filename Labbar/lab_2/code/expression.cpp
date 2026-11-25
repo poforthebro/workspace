@@ -20,3 +20,33 @@ std::size_t Expression::get_count_expressions() {
 
 /* ************************* */
 
+
+
+std::string to_string() {
+    std::string outString;
+
+    return outString; // Change to appropriate
+}
+
+
+double evaluate(double x) {
+    double y = 0;
+
+    return y;
+}
+
+bool is_root(double x); {
+
+    return false; // Update
+}
+
+std::ostream& operator<<(std::ostream& os, const Expression& E) {
+
+    return os;
+}
+
+Expression* clone() {
+    Expression* theClone = Expression();
+
+
+}

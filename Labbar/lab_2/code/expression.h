@@ -19,7 +19,7 @@ public:
     std::string to_string();
     double evaluate(double x);
     bool is_root(double x);
-    operator<<();
+    std::ostream& operator<<(std::ostream& os);
     Expression* clone();
 
     /*
