@@ -1,0 +1,20 @@
+Show concrete examples in your code where dynamic binding occurs.
+• Investigate the reason(s) for having the member function clone. If the idea is to make
+copies of objects that are instances of class Expression then aren’t the copy
+constructors in each of the derived classes of Expression enough?
+
+
+• Motivate why is desirable that the two pieces of code in “Requirements” do not
+compile?
+
+
+• How does your solution prevent the compilation of the pieces of code mentioned
+above?
+[Hint (test phase 2): check which member function is being called and its return type.]
+[Hint (test phase 16): check whether class Expression has a public assignment
+operator.]
+
+Q
+
+• Explain the concept of object slicing and give an example. How does your code
+prevent object slicing? [Hint: review lecture 10]
