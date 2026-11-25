@@ -16,6 +16,11 @@ public:
     virtual ~Expression() { --count_expressions; }
 
     // ADD OTHER MEMBER FUNCTIONS
+    std::string to_string();
+    double evaluate(double x);
+    bool is_root(double x);
+    operator<<();
+    Expression* clone();
 
     /*
      *  Return number of existing instances of class Expression

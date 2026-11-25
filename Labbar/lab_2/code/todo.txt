@@ -1,0 +1,27 @@
+1. Write the interface of class Expression (expression.h). [Y]
+
+2. For each Expression member function to be implemented in this class, add a
+definition with a dummy body to expression.cpp. [ ]
+
+3. Write the interface of class Polynomial (polynomial.h).[ ]
+
+4. For each Polynomial member function to be implemented in this class, add a
+definition with a dummy body to polynomial.cpp. [ ]
+
+5. Write the interface of class Logarithm (logarithm.h). [ ]
+
+6. For each Logarithm member function to be implemented in this class, add a definition
+with a dummy body to logarithm.cpp [ ]
+
+7. Compile, link, and execute. Tests in the main should fail. [ ]
+
+8. Implement the functions in point 2. [ ]
+
+9. Implement the functions in point 4. [ ]
+
+10. Compile, link, and execute. All tests for class Polynomial should pass. [ ]
+
+11. Implement the functions in point 6. [ ]
+
+12. Compile, link, and execute. All tests for class Polynomial and class Logarithm
+should pass. [ ]
