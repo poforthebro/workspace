@@ -7,3 +7,10 @@
  * otherwise, a linker error will be generated
  * If an implementation is not yet ready, a function stub can be used as a placeholder
  */
+
+
+ Constant* Constant::clone() const override{
+    
+
+
+ }
