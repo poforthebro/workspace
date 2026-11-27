@@ -23,7 +23,7 @@ class Constant : public Expression {
 
     Constant* clone() const override;
     
-
+    void display(std::ostream& os) const override;
 
 
 

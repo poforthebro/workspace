@@ -9,8 +9,13 @@
  */
 
 
- Constant* Constant::clone() const override{
-    
-
-
+ Constant* Constant::clone() const {
+     Constant* ptrnm = new Constant{ c };
+     return ptrnm;
  }
+
+
+ void Constant::display(std::ostream& os) const {
+	 os << c;
+ }
+
